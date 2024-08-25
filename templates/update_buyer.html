@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Buyer</title>
+</head>
+<body>
+    <h1>Update Buyer</h1>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.firstname.label }}<br>
+            {{ form.firstname(size=32) }}<br>
+            {% for error in form.firstname.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.lastname.label }}<br>
+            {{ form.lastname(size=32) }}<br>
+            {% for error in form.lastname.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.sex.label }}<br>
+            {{ form.sex(size=32) }}<br>
+            {% for error in form.sex.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+            <p>
+            {{ form.birthday.label }}<br>
+            {{ form.birthday(size=12) }}<br>
+            {% for error in form.birthday.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.consent.label }}<br>
+            {{ form.consent(size=12) }}<br>
+            {% for error in form.consent.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+
+    <a href="{{ url_for('index') }}">Back to list</a>
+</body>
+</html>

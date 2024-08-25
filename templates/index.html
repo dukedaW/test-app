@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User List</title>
+</head>
+<body>
+    <h1>Add User</h1>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.firstname.label }}<br>
+            {{ form.firstname(size=32) }}<br>
+            {% for error in form.firstname.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.lastname.label }}<br>
+            {{ form.lastname(size=32) }}<br>
+            {% for error in form.lastname.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.sex.label }}<br>
+            {{ form.sex(size=32) }}<br>
+            {% for error in form.sex.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+            <p>
+            {{ form.birthday.label }}<br>
+            {{ form.birthday(size=12) }}<br>
+            {% for error in form.birthday.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.consent.label }}<br>
+            {{ form.consent(size=12) }}<br>
+            {% for error in form.consent.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+
+    <h2>Buyers</h2>
+    <ul>
+        {% for buyer in buyers %}
+            <li>Id: {{ buyer.buyer_id}}, Lastname: {{ buyer.lastname }}, Firstname: {{ buyer.firstname }}
+                <a href="{{ url_for('update', buyer_id=buyer.buyer_id) }}">Edit</a>
+                <a href="{{ url_for('delete', buyer_id=buyer.buyer_id) }}">Delete</a>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
