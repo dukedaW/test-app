@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Purchase</title>
+    <!-- Include Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 50px;
+            background-color: #f8f9fa;
+        }
+        .error {
+            color: red;
+            font-size: 0.9em;
+        }
+        .form-section {
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mb-4">Update Purchase</h1>
+        <form method="POST" class="needs-validation" novalidate>
+            {{ form.hidden_tag() }}
+            <div class="form-section">
+                <div class="form-group">
+                    {{ form.buyer.label(class="form-label") }}
+                    {{ form.buyer(class="form-control", size=32) }}
+                    {% for error in form.buyer.errors %}
+                        <div class="error">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    {{ form.product.label(class="form-label") }}
+                    {{ form.product(class="form-control", size=32) }}
+                    {% for error in form.product.errors %}
+                        <div class="error">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    {{ form.amount.label(class="form-label") }}
+                    {{ form.amount(class="form-control", size=32) }}
+                    {% for error in form.amount.errors %}
+                        <div class="error">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    {{ form.purchase_date.label(class="form-label") }}
+                    {{ form.purchase_date(class="form-control", size=12) }}
+                    {% for error in form.purchase_date.errors %}
+                        <div class="error">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+            </div>
+        <button type="submit" class="btn btn-primary">{{ form.submit.label.text }}</button>
+        </form>
+
+        <a href="{{ url_for('purchases_page') }}" class="btn btn-secondary mt-3">Back to list</a>
+    </div>
+
+    <!-- Include Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
