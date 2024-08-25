@@ -3,7 +3,7 @@ from flask import Flask, render_template, jsonify, Blueprint, redirect, url_for,
 from datetime import datetime, date
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, DateField, BooleanField
+from wtforms import StringField, SubmitField, DateField, BooleanField, FloatField
 from wtforms.validators import DataRequired
 
 app = Flask(__name__)
@@ -42,7 +42,7 @@ class Buyer(db.Model):
                 f'{self.consent})')
 
 
-class Products(db.Model):
+class Product(db.Model):
     __tablename__ = 'products'
 
     product_id = db.Column(db.Integer, primary_key=True)
@@ -62,25 +62,37 @@ class Products(db.Model):
         return f'({self.product_id}, {self.name}, {self.purchase_cost}, {self.selling_price})'
 
 
-@app.route('/', methods=['GET', 'POST'])
+class ProductForm(FlaskForm):
+    name = StringField('name', validators=[DataRequired()])
+    purchase_cost = FloatField('purchase cost', validators=[DataRequired()])
+    selling_price = FloatField('selling price', validators=[DataRequired()])
+    submit = SubmitField('Submit')
+
+
+@app.route('/')
 def index():
+    return render_template('index.html')
+
+
+@app.route('/buyers_page', methods=['GET', 'POST'])
+def buyers_page():
     form = BuyerForm()
     if form.validate_on_submit():
         buyer = Buyer(firstname=form.firstname.data, lastname=form.lastname.data, birth_date=form.birthday.data,
                       sex=form.sex.data, consent=form.consent.data)
         db.session.add(buyer)
         db.session.commit()
-        return redirect(url_for('index'))
+        return redirect(url_for('buyers_page'))
     buyers = Buyer.query.all()
-    return render_template('index.html', form=form, buyers=buyers)
+    return render_template('buyers_page.html', form=form, buyers=buyers)
 
 
-@app.route('/delete/<int:buyer_id>')
-def delete(buyer_id):
+@app.route('/delete_buyer/<int:buyer_id>', methods=['POST'])
+def delete_buyer(buyer_id):
     buyer = Buyer.query.get_or_404(buyer_id)
     db.session.delete(buyer)
     db.session.commit()
-    return redirect(url_for('index'))
+    return redirect(url_for('buyers_page'))
 
 
 class BuyerForm(FlaskForm):
@@ -94,7 +106,7 @@ class BuyerForm(FlaskForm):
 
 
 @app.route('/update_buyer/<int:buyer_id>', methods=['GET', 'POST'])
-def update(buyer_id):
+def update_buyer(buyer_id):
     buyer = Buyer.query.get_or_404(buyer_id)
     form = BuyerForm(obj=buyer)
     if form.validate_on_submit():
@@ -104,8 +116,47 @@ def update(buyer_id):
         buyer.consent = form.consent.data
         buyer.birth_date = form.birthday.data
         db.session.commit()
-        return redirect(url_for('index'))
+        return redirect(url_for('buyers_page'))
     return render_template('update_buyer.html', form=form)
+
+
+'''
+    Products
+'''
+
+
+@app.route('/products_page', methods=['GET', 'POST'])
+def products_page():
+    form = ProductForm()
+    if form.validate_on_submit():
+        product = Product(name=form.name.data, purchase_cost=form.purchase_cost.data,
+                          selling_price=form.selling_price.data)
+        db.session.add(product)
+        db.session.commit()
+        return redirect(url_for('products_page'))
+    products = Product.query.all()
+    return render_template('products_page.html', form=form, products=products)
+
+
+@app.route('/update_product/<int:product_id>', methods=['GET', 'POST'])
+def update_product(product_id):
+    product = Product.query.get_or_404(product_id)
+    form = ProductForm(obj=product)
+    if form.validate_on_submit():
+        product.name = form.name.data
+        product.selling_price = form.selling_price.data
+        product.purchase_cost = form.purchase_cost.data
+        db.session.commit()
+        return redirect(url_for('products_page'))
+    return render_template('update_product.html', form=form)
+
+
+@app.route('/delete_product/<int:product_id>', methods=['POST'])
+def delete_product(product_id):
+    product = Product.query.get_or_404(product_id)
+    db.session.delete(product)
+    db.session.commit()
+    return redirect(url_for('products_page'))
 
 
 def create_tables():
@@ -113,7 +164,7 @@ def create_tables():
 
 
 def fill_db():
-    prod = Products('banana', 10.0, 12.0)
+    prod = Product('banana', 10.0, 12.0)
     db.session.add(prod)
     db.session.commit()
 

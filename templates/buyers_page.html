@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Update Buyer</title>
+    <title>User List</title>
 </head>
 <body>
-    <h1>Update Buyer</h1>
+    <h1>Add User</h1>
     <form method="POST">
         {{ form.hidden_tag() }}
         <p>
@@ -46,6 +46,14 @@
         <p>{{ form.submit() }}</p>
     </form>
 
-    <a href="{{ url_for('buyers_page_page') }}">Back to list</a>
+    <h2>Buyers</h2>
+    <ul>
+        {% for buyer in buyers %}
+            <li>Id: {{ buyer.buyer_id}}, Lastname: {{ buyer.lastname }}, Firstname: {{ buyer.firstname }}
+                <a href="{{ url_for('update_buyer', buyer_id=buyer.buyer_id) }}">Edit</a>
+                <a href="{{ url_for('delete_buyer', buyer_id=buyer.buyer_id) }}">Delete</a>
+        </li>
+        {% endfor %}
+    </ul>
 </body>
 </html>

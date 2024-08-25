@@ -2,58 +2,38 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>User List</title>
+    <title>Main Page</title>
+    <style>
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            outline: none;
+            color: #fff;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 9px #999;
+        }
+
+        .button:hover {background-color: #3e8e41}
+
+        .button:active {
+            background-color: #3e8e41;
+            box-shadow: 0 5px #666;
+            transform: translateY(4px);
+        }
+    </style>
 </head>
 <body>
-    <h1>Add User</h1>
-    <form method="POST">
-        {{ form.hidden_tag() }}
-        <p>
-            {{ form.firstname.label }}<br>
-            {{ form.firstname(size=32) }}<br>
-            {% for error in form.firstname.errors %}
-                <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.lastname.label }}<br>
-            {{ form.lastname(size=32) }}<br>
-            {% for error in form.lastname.errors %}
-                <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.sex.label }}<br>
-            {{ form.sex(size=32) }}<br>
-            {% for error in form.sex.errors %}
-                <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-            <p>
-            {{ form.birthday.label }}<br>
-            {{ form.birthday(size=12) }}<br>
-            {% for error in form.birthday.errors %}
-                <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.consent.label }}<br>
-            {{ form.consent(size=12) }}<br>
-            {% for error in form.consent.errors %}
-                <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>{{ form.submit() }}</p>
-    </form>
-
-    <h2>Buyers</h2>
-    <ul>
-        {% for buyer in buyers %}
-            <li>Id: {{ buyer.buyer_id}}, Lastname: {{ buyer.lastname }}, Firstname: {{ buyer.firstname }}
-                <a href="{{ url_for('update', buyer_id=buyer.buyer_id) }}">Edit</a>
-                <a href="{{ url_for('delete', buyer_id=buyer.buyer_id) }}">Delete</a>
-        </li>
-        {% endfor %}
-    </ul>
+    <h1>Welcome to Task 2 app</h1>
+    <div>
+        <a href="{{ url_for('buyers_page') }}"><button class="button">Go to Buyers</button></a>
+        <a href="{{ url_for('products_page') }}"><button class="button">Go to Products</button></a>
+{#        <a href="{{ url_for('purchases') }}"><button class="button">Go to Purchases</button></a>#}
+    </div>
 </body>
 </html>
