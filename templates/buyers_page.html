@@ -2,58 +2,91 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>User List</title>
+    <title>Buyers List</title>
+    <!-- Include Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 50px;
+            background-color: #f8f9fa;
+        }
+        .error {
+            color: red;
+            font-size: 0.9em;
+        }
+        .form-section {
+            margin-bottom: 30px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Add User</h1>
-    <form method="POST">
-        {{ form.hidden_tag() }}
-        <p>
-            {{ form.firstname.label }}<br>
-            {{ form.firstname(size=32) }}<br>
-            {% for error in form.firstname.errors %}
-                <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.lastname.label }}<br>
-            {{ form.lastname(size=32) }}<br>
-            {% for error in form.lastname.errors %}
-                <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.sex.label }}<br>
-            {{ form.sex(size=32) }}<br>
-            {% for error in form.sex.errors %}
-                <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-            <p>
-            {{ form.birthday.label }}<br>
-            {{ form.birthday(size=12) }}<br>
-            {% for error in form.birthday.errors %}
-                <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.consent.label }}<br>
-            {{ form.consent(size=12) }}<br>
-            {% for error in form.consent.errors %}
-                <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>{{ form.submit() }}</p>
-    </form>
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>Add Buyer</h1>
+            <!-- Back to Main Page Button -->
+            <a href="{{ url_for('index') }}" class="btn btn-outline-secondary">Back to Main Page</a>
+        </div>
 
-    <h2>Buyers</h2>
-    <ul>
-        {% for buyer in buyers %}
-            <li>Id: {{ buyer.buyer_id}}, Lastname: {{ buyer.lastname }}, Firstname: {{ buyer.firstname }}
-                <a href="{{ url_for('update_buyer', buyer_id=buyer.buyer_id) }}">Edit</a>
-                <a href="{{ url_for('delete_buyer', buyer_id=buyer.buyer_id) }}">Delete</a>
-        </li>
-        {% endfor %}
-    </ul>
+        <form method="POST" class="needs-validation" novalidate>
+            {{ form.hidden_tag() }}
+            <div class="form-section">
+                <div class="form-group">
+                    {{ form.firstname.label(class="form-label") }}
+                    {{ form.firstname(class="form-control", size=32) }}
+                    {% for error in form.firstname.errors %}
+                        <div class="error">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    {{ form.lastname.label(class="form-label") }}
+                    {{ form.lastname(class="form-control", size=32) }}
+                    {% for error in form.lastname.errors %}
+                        <div class="error">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    {{ form.sex.label(class="form-label") }}
+                    {{ form.sex(class="form-control", size=32) }}
+                    {% for error in form.sex.errors %}
+                        <div class="error">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    {{ form.birthday.label(class="form-label") }}
+                    {{ form.birthday(class="form-control", size=12) }}
+                    {% for error in form.birthday.errors %}
+                        <div class="error">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    {{ form.consent.label(class="form-label") }}
+                    {{ form.consent(class="form-control", size=12) }}
+                    {% for error in form.consent.errors %}
+                        <div class="error">[{{ error }}]</div>
+                    {% endfor %}
+                </div>
+                <button type="submit" class="btn btn-primary">{{ form.submit.label.text }}</button>
+            </div>
+        </form>
+
+        <h2 class="mt-5">Buyers</h2>
+        <ul class="list-group">
+            {% for buyer in buyers %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Id: {{ buyer.buyer_id }}, Lastname: {{ buyer.lastname }}, Firstname: {{ buyer.firstname }}
+                    <span>
+                        <a href="{{ url_for('update_buyer', buyer_id=buyer.buyer_id) }}" class="btn btn-sm btn-secondary">Edit</a>
+                        <form action="{{ url_for('delete_buyer', buyer_id=buyer.buyer_id) }}" method="post" style="display:inline;">
+                            <!-- CSRF token (if applicable) -->
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        </form>
+                    </span>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+ <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

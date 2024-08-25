@@ -2,11 +2,12 @@ from flask import Flask, render_template, jsonify, Blueprint, redirect, url_for,
 
 from datetime import datetime, date
 from flask_sqlalchemy import SQLAlchemy
-from flask_wtf import FlaskForm
+from flask_wtf import FlaskForm, CSRFProtect
 from wtforms import StringField, SubmitField, DateField, BooleanField, FloatField
 from wtforms.validators import DataRequired
 
 app = Flask(__name__)
+# csrf = CSRFProtect(app)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///task2.db"
 app.config['SECRET_KEY'] = 'key'
 db = SQLAlchemy(app)

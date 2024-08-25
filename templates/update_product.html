@@ -2,36 +2,60 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Update Product</title>
+    <!-- Include Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 50px;
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+        }
+        .error {
+            color: red;
+            font-size: 0.9em;
+        }
+    </style>
 </head>
 <body>
-    <h1>Update Product</h1>
-    <form method="POST">
-        {{ form.hidden_tag() }}
-        <p>
-            {{ form.name.label }}<br>
-            {{ form.name(size=32) }}<br>
-            {% for error in form.name.errors %}
-                <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.selling_price.label }}<br>
-            {{ form.selling_price(size=32) }}<br>
-            {% for error in form.selling_price.errors %}
-                <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.purchase_cost.label }}<br>
-            {{ form.purchase_cost(size=32) }}<br>
-            {% for error in form.purchase_cost.errors %}
-                <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>{{ form.submit() }}</p>
-    </form>
+    <div class="container">
+        <h1 class="mb-4">Update Product</h1>
+        <form method="POST" class="needs-validation" novalidate>
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                {{ form.name.label(class="form-label") }}
+                {{ form.name(class="form-control", size=32) }}
+                {% for error in form.name.errors %}
+                    <div class="error">[{{ error }}]</div>
+                {% endfor %}
+            </div>
+            <div class="form-group">
+                {{ form.selling_price.label(class="form-label") }}
+                {{ form.selling_price(class="form-control", size=32) }}
+                {% for error in form.selling_price.errors %}
+                    <div class="error">[{{ error }}]</div>
+                {% endfor %}
+            </div>
+            <div class="form-group">
+                {{ form.purchase_cost.label(class="form-label") }}
+                {{ form.purchase_cost(class="form-control", size=32) }}
+                {% for error in form.purchase_cost.errors %}
+                    <div class="error">[{{ error }}]</div>
+                {% endfor %}
+            </div>
+            <button type="submit" class="btn btn-primary">{{ form.submit.label.text }}</button>
+        </form>
 
-    <a href="{{ url_for('products_page') }}">Back to list</a>
+        <a href="{{ url_for('products_page') }}" class="btn btn-link mt-3">Back to list</a>
+    </div>
+
+    <!-- Include Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
