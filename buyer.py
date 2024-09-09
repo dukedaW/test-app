@@ -21,7 +21,7 @@ class Buyer(db.Model):
 
     reg_date = db.Column(db.DATE, nullable=False)
 
-    consent = db.Column(db.BOOLEAN, nullable=False)
+    consent = db.Column(db.BOOLEAN)
 
     def __init__(self, firstname, lastname, birth_date, sex, consent):
         self.firstname = firstname
